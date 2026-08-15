@@ -1,0 +1,60 @@
+
+.flex-center-content {
+    --align-items: center;
+    display: flex;
+    }
+
+.login-container {
+    max-width: 500px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.login-header {
+    margin-bottom: 30px;
+    
+    ion-icon {
+        font-size: 80px;
+        margin-bottom: 15px;
+    }
+    
+    h1 {
+        font-weight: bold;
+        font-size: 1.8rem;
+        color: var(--ion-color-dark);
+    }
+    
+    p {
+        color: var(--ion-color-medium);
+    }
+}
+
+.login-item {
+    --background: var(--ion-item-background, transparent);
+    --border-radius: 12px;
+    --padding-start: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); // Suave sombra
+    margin-bottom: 5px;
+    
+    ion-icon {
+        margin-right: 10px;
+    }
+}
+
+.error-container {
+    font-size: 0.8rem;
+    margin-top: -3px;
+    margin-bottom: 8px;
+}
+
+.registration-link {
+    margin-top: 25px;
+    
+    ion-text {
+        font-size: 0.9rem;
+    }
+    
+    ion-button {
+        font-weight: bold;
+    }
+}

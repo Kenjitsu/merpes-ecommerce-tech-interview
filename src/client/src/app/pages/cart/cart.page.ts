@@ -1,18 +1,44 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton, IonIcon, IonButton, IonList, IonItem, IonLabel, IonThumbnail, IonText, IonFooter, IonRow, IonCol, IonBadge, IonGrid } from '@ionic/angular/standalone';
+import {
+  IonContent,
+  IonHeader,
+  IonTitle,
+  IonToolbar,
+  IonButtons,
+  IonBackButton,
+  IonIcon,
+  IonButton,
+  IonList,
+  IonItem,
+  IonLabel,
+  IonThumbnail,
+  IonText,
+  IonFooter,
+  IonRow,
+  IonCol,
+  IonBadge,
+  IonGrid,
+} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { trashOutline, addCircle, removeCircle, arrowBackOutline, cartOutline } from 'ionicons/icons';
+import {
+  trashOutline,
+  addCircle,
+  removeCircle,
+  arrowBackOutline,
+  cartOutline,
+} from 'ionicons/icons';
 import { Cart } from '../../services/cart';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { Auth } from 'src/app/services/auth';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.page.html',
   styleUrls: ['./cart.page.scss'],
   standalone: true,
-  imports: [ 
+  imports: [
     IonCol,
     IonRow,
     IonFooter,
@@ -31,11 +57,13 @@ import { RouterLink } from '@angular/router';
     IonToolbar,
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
   ],
 })
 export class CartPage {
   public cartService = inject(Cart);
+  private authService = inject(Auth);
+  private router = inject(Router);
 
   constructor() {
     addIcons({
@@ -65,6 +93,12 @@ export class CartPage {
   }
 
   proceedToCheckout() {
-    console.log('Iniciando proceso de pago...');
+    if (this.authService.isAuthenticated()) {
+      this.router.navigateByUrl('/checkout');
+    } else {
+      this.router.navigate(['/login'], {
+        queryParams: { returnUrl: '/checkout' },
+      });
+    }
   }
 }
