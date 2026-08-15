@@ -1,3 +1,9 @@
-﻿namespace MerpesEcommerce.API.DTOs.Auth;
+﻿using System.ComponentModel.DataAnnotations;
 
-public record RegisterRequest(string Name, string Email, string Password);
+namespace MerpesEcommerce.API.DTOs.Auth;
+
+public record RegisterRequest(
+    [Required] string Name, 
+    [EmailAddress] string Email, 
+    [Required] string Password
+ );
