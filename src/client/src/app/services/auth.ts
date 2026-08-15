@@ -23,6 +23,7 @@ export class Auth {
   private apiUrl = `${environment.apiUrl}/auth`;
 
   constructor() {
+    console.log(this.apiUrl);
     this.checkInitialState();
   }
 
