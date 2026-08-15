@@ -14,6 +14,7 @@ public static class ApplicationServiceExtensions
     {
         services.AddControllersConfig();
         services.AddOpenApi();
+        services.AddCorsConfig();
 
         services.AddDbConfig(configuration);
 
@@ -53,6 +54,20 @@ public static class ApplicationServiceExtensions
                 return new BadRequestObjectResult(result);
             };
         });
+        return services;
+    }
+
+    private static IServiceCollection AddCorsConfig(this IServiceCollection services)
+    {
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowIonicOrigin",
+                policy => policy.WithOrigins("https://localhost:8100")
+                                               .AllowAnyMethod()
+                                               .AllowAnyHeader()
+                                               .AllowCredentials());
+        });
+
         return services;
     }
     
