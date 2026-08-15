@@ -1,13 +1,81 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>cart</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/catalog" icon="arrow-back-outline" text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mi Carrito</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">cart</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="cart-container">
+
+    @if (cartService.cartItems().length === 0) {
+    <div class="empty-cart ion-text-center">
+      <ion-icon name="cart-outline"></ion-icon>
+      <h2>Tu carrito está vacío</h2>
+      <p>Explora nuestro catálogo y añade productos para continuar.</p>
+      <ion-button routerLink="/catalog" expand="block" color="primary" class="ion-margin-top">
+        Ir al Catálogo
+      </ion-button>
+    </div>
+    } @else {
+    <ion-list lines="none">
+      @for (item of cartService.cartItems(); track item.product.id) {
+      <ion-item class="cart-item">
+
+        <ion-thumbnail slot="start">
+          <img [src]="item.product.imageUrl" [alt]="item.product.name" />
+        </ion-thumbnail>
+
+        <ion-label class="ion-text-wrap">
+          <h2>{{ item.product.name }}</h2>
+          <p class="price-text">{{ item.product.price | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
+
+          <div class="quantity-controls">
+            <ion-button fill="clear" color="primary" (click)="decreaseItemQuantity(item.product.id)">
+              <ion-icon slot="icon-only" name="remove-circle"></ion-icon>
+            </ion-button>
+
+            <ion-text class="quantity-value">{{ item.quantity }}</ion-text>
+
+            <ion-button fill="clear" color="primary" (click)="increaseItemQuantity(item.product.id)">
+              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-label>
+
+        <ion-button slot="end" fill="clear" color="danger" class="delete-button" (click)="removeItem(item.product.id)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+
+      </ion-item>
+      }
+    </ion-list>
+    }
+
+  </div>
 </ion-content>
+
+@if (cartService.cartItems().length > 0) {
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <div class="cart-container">
+      <div class="ion-padding">
+        <ion-row class="ion-justify-content-between ion-align-items-center summary-row">
+          <ion-col size="auto">
+            <ion-text color="medium">Total a Pagar:</ion-text>
+          </ion-col>
+          <ion-col size="auto">
+            <strong class="total-price">{{ cartService.totalPrice() | currency:'COP':'symbol-narrow':'1.0-0' }}</strong>
+          </ion-col>
+        </ion-row>
+
+        <ion-button expand="block" color="success" size="large" (click)="proceedToCheckout()">
+          Proceder al Pago
+        </ion-button>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-footer>
+}

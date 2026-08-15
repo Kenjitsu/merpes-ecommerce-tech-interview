@@ -1,13 +1,84 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>catalog</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title>IO.NET Store</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button routerLink="/login">
+        <ion-icon slot="start" name="person-circle-outline"></ion-icon>
+        Ingresar
+      </ion-button>
+
+      <!-- Cambiamos routerLink por el evento (click)="goToCart()" -->
+      <ion-button routerLink="/cart">
+        <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+        @if (cartService.totalItems() > 0) {
+        <ion-badge color="danger" class="cart-badge">
+          {{ cartService.totalItems() }}
+        </ion-badge>
+        }
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">catalog</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <ion-grid>
+    <ion-row>
+      @for (product of products; track product.id) {
+      <ion-col size="12" size-md="4">
+        <ion-card>
+
+          <img [src]="product.imageUrl" [alt]="product.name" class="product-image" />
+
+          <ion-card-header>
+            <ion-card-title>{{ product.name }}</ion-card-title>
+            <ion-card-subtitle>{{ product.price | currency:'COP':'symbol-narrow':'1.0-0' }}</ion-card-subtitle>
+          </ion-card-header>
+
+          <ion-card-content>
+            <p>{{ product.description }}</p>
+          </ion-card-content>
+
+          <div class="ion-padding">
+
+            <!-- LÓGICA DE UX MEJORADA -->
+            @if (getItemQuantity(product.id) === 0) {
+            <!-- Si no está en el carrito, mostramos el botón grande -->
+            <ion-button expand="block" color="primary" (click)="addToCart(product)">
+              <ion-icon slot="start" name="cart-outline"></ion-icon>
+              Agregar al Carrito
+            </ion-button>
+            } @else {
+            <!-- Si ya está en el carrito, mostramos los controles para modificar cantidad -->
+            <ion-row class="ion-align-items-center ion-justify-content-center quantity-controls">
+              <ion-col size="auto">
+                <ion-button fill="clear" color="primary" (click)="decreaseQuantity(product.id)">
+                  <ion-icon slot="icon-only" name="remove-circle" class="quantity-icon"></ion-icon>
+                </ion-button>
+              </ion-col>
+
+              <ion-col size="auto">
+                <ion-text class="quantity-value">
+                  <!-- Leemos la cantidad real desde el servicio -->
+                  {{ getItemQuantity(product.id) }}
+                </ion-text>
+              </ion-col>
+
+              <ion-col size="auto">
+                <ion-button fill="clear" color="primary" (click)="addToCart(product)">
+                  <ion-icon slot="icon-only" name="add-circle" class="quantity-icon"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+            }
+
+          </div>
+
+        </ion-card>
+      </ion-col>
+      }
+    </ion-row>
+  </ion-grid>
+
 </ion-content>
