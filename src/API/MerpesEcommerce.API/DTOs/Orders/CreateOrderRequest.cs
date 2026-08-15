@@ -1,3 +1,8 @@
-﻿namespace MerpesEcommerce.API.DTOs.Orders;
+﻿using System.ComponentModel.DataAnnotations;
 
-public record CreateOrderRequest(int UserId, List<OrderItemRequest> Items);
+namespace MerpesEcommerce.API.DTOs.Orders;
+
+public record CreateOrderRequest(
+    [Required] int UserId,
+    [Required] List<OrderItemRequest> Items
+ );

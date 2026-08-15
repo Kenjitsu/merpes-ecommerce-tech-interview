@@ -1,13 +1,11 @@
-@MerpesEcommerce.API_HostAddress = http://localhost:5132
+@MerpesEcommerce.API_HostAddress = https://localhost:7214
 
-GET {{MerpesEcommerce.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
+# @name register
 
 POST {{MerpesEcommerce.API_HostAddress}}/api/auth/register/
 Accept: application/json
 Content-Type: application/json
+
 {
   "name": "testuser",
   "email": "testuser@example.com",
@@ -15,12 +13,40 @@ Content-Type: application/json
 }
 
 ###
+
+# @name login
+
 POST {{MerpesEcommerce.API_HostAddress}}/api/auth/login/
 Accept: application/json
 Content-Type: application/json
+
 {
   "email": "testuser@example.com",
   "password": "TestPassword123!"
 }
 
+###
 
+GET {{MerpesEcommerce.API_HostAddress}}/api/products/
+Accept: application/json
+
+###
+
+POST {{MerpesEcommerce.API_HostAddress}}/api/orders/create/
+Authorization: Bearer {{login.response.body.$.data.token}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 2
+    },
+    {
+      "productId": 2,
+      "quantity": 1
+    }
+  ]
+}

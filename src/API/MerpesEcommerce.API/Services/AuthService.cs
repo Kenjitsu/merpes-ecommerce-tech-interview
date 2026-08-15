@@ -26,7 +26,8 @@ public class AuthService : IAuthService
             return Result<AuthResponse?>.Failure(new Error("CREDENCIALES_INVALIDAS", "Usuario o contraseña incorrectos."), HttpStatusCode.Unauthorized);
         }
 
-        var simulatedToken = Guid.NewGuid().ToString();
+        var plainTextToken = $"{user.Id}:{user.Email}";
+        var simulatedToken = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(plainTextToken));
         return Result<AuthResponse?>.Success(new AuthResponse(user.Id, user.Name, user.Email, simulatedToken));
     }
 
@@ -48,7 +49,8 @@ public class AuthService : IAuthService
         _context.AppUsers.Add(user);
         await _context.SaveChangesAsync();
 
-        var simulatedToken = Guid.NewGuid().ToString();
+        var plainTextToken = $"{user.Id}:{user.Email}";
+        var simulatedToken = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(plainTextToken));
         return Result<AuthResponse>.Success(new AuthResponse(user.Id, user.Name, user.Email, simulatedToken));
     }
 }
