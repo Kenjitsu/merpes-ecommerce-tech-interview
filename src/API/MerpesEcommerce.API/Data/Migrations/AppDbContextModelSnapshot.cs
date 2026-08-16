@@ -103,6 +103,10 @@ namespace MerpesEcommerce.API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Description")
+                        .HasMaxLength(300)
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -124,21 +128,24 @@ namespace MerpesEcommerce.API.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ImageUrl = "https://dummyimage.com/200x200/000/fff&text=Audifonos",
+                            Description = "Audífonos inalámbricos de alta calidad",
+                            ImageUrl = "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=200&h=200&fit=crop",
                             Name = "Audífonos Inalámbricos",
                             Price = 150000m
                         },
                         new
                         {
                             Id = 2,
-                            ImageUrl = "https://dummyimage.com/200x200/000/fff&text=Teclado",
+                            Description = "Teclado mecánico con switches de alta calidad",
+                            ImageUrl = "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=200&h=200&fit=crop",
                             Name = "Teclado Mecánico",
                             Price = 250000m
                         },
                         new
                         {
                             Id = 3,
-                            ImageUrl = "https://dummyimage.com/200x200/000/fff&text=Mouse",
+                            Description = "Mouse gamer con sensor de alta precisión",
+                            ImageUrl = "https://images.unsplash.com/photo-1618247130379-980b9fe0df04?q=80&w=200&h=200&fit=crop",
                             Name = "Mouse Gamer",
                             Price = 90000m
                         });

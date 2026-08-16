@@ -20,7 +20,7 @@ public class ProductService : IProductService
     {
         var items = await _context.Products
             .AsNoTracking()
-            .Select(p => new ProductResponse(p.Id, p.Name, p.ImageUrl, p.Price))
+            .Select(p => new ProductResponse(p.Id, p.Name, p.ImageUrl, p.Description ?? string.Empty, p.Price))
             .ToListAsync();
 
         if (items == null || items.Count == 0)
