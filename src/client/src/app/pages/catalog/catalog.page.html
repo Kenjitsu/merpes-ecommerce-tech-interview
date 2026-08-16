@@ -38,7 +38,6 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
 
-  <!-- Estado de carga -->
   @if (loading) {
   <div class="center-content ion-text-center ion-padding-top">
     <ion-spinner name="lines" color="primary"></ion-spinner>
@@ -46,7 +45,6 @@
   </div>
   }
 
-  <!-- Estado sin productos -->
   @else if (products.length === 0) {
   <div class="center-content ion-text-center ion-padding-top">
     <ion-icon name="alert-circle-outline" color="medium" style="font-size: 4rem;"></ion-icon>
@@ -56,7 +54,6 @@
   </div>
   }
 
-  <!-- Catálogo cargado exitosamente -->
   @else {
   <ion-grid fixed>
     <ion-row>
@@ -74,7 +71,7 @@
           </ion-card-header>
 
           <ion-card-content>
-            <p><!--{{ product.description }}--> descripción de prueba</p>
+            <p>{{ product.description }}</p>
             <div class="quantity-controls">
               <ion-button fill="clear" color="medium" (click)="decreaseQuantity(product.id)">
                 <ion-icon slot="icon-only" name="remove-circle-outline" class="quantity-icon"></ion-icon>

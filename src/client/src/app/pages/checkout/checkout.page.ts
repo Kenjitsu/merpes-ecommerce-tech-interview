@@ -117,7 +117,6 @@ export class CheckoutPage {
     this.loadingConfirm = true;
 
     try {
-      // A) Mapear los ítems
       const orderItems: OrderItemDto[] = this.cartService
         .cartItems()
         .map((item) => ({
@@ -125,7 +124,6 @@ export class CheckoutPage {
           quantity: item.quantity,
         }));
 
-      // B) Obtener el ID del usuario desde el AuthService
       const currentUserId = Number(this.authService.getUserId());
 
       if (currentUserId === 0) {
@@ -138,13 +136,11 @@ export class CheckoutPage {
         return;
       }
 
-      // C) Preparar el DTO exacto que espera C#
       const orderRequest: CreateOrderRequest = {
         userId: currentUserId,
         items: orderItems,
       };
 
-      // D) Llamada real a la API
       const result = await this.orderService.createOrder(orderRequest);
 
       if (result.isSuccess && result.data) {
@@ -177,9 +173,8 @@ export class CheckoutPage {
     const nativeIcon = isSuccess ? '✅' : '❌';
 
     const alert = await this.alertController.create({
-      // Colocamos el ícono directamente en el título
       header: `${nativeIcon} ${header}`,
-      message: message, // Texto completamente plano y seguro
+      message: message,
       backdropDismiss: false,
       buttons: [
         {
