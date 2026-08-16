@@ -15,7 +15,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("AllowIonicOrigin");
+app.UseCors("DevCorsPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();

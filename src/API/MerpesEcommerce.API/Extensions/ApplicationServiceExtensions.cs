@@ -61,11 +61,12 @@ public static class ApplicationServiceExtensions
     {
         services.AddCors(options =>
         {
-            options.AddPolicy("AllowIonicOrigin",
-                policy => policy.WithOrigins("https://localhost:8100")
-                                               .AllowAnyMethod()
-                                               .AllowAnyHeader()
-                                               .AllowCredentials());
+            options.AddPolicy("DevCorsPolicy", policy =>
+            {
+                policy.AllowAnyOrigin() // solo por temas de desarrollo
+                      .AllowAnyMethod()
+                      .AllowAnyHeader();
+            });
         });
 
         return services;
