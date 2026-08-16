@@ -57,7 +57,7 @@ Para levantar el servidor backend en un entorno de desarrollo local, desde visua
 dotnet restore
 dotnet run
 ```
-La API se inicializará y estará escuchando peticiones en los puertos configurados localmente (usualmente `http://localhost:5132` o `https://localhost:7214`).
+La API se inicializará y estará escuchando peticiones en los puertos configurados localmente (usualmente `http://localhost:5132` o `https://localhost:7214`). Una vez ejecutada la API, se aplicarán automáticamente las migraciones pendientes de la base de datos SQLite, asegurando que la base de datos se cree correctamente ysu estructura esté actualizada según el modelo de datos definido en el proyecto.
 
 ### Frontend (App) <a id="frontend-app"/>
 Para ejecutar la aplicación cliente en el navegador y visualizar los cambios en tiempo real, dirígete a la carpeta raíz del frontend y ejecuta:
