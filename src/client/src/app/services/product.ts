@@ -1,4 +1,8 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
+import { Result } from '../interfaces/result';
+import { firstValueFrom } from 'rxjs';
 
 export interface Item {
   id: number;
@@ -12,33 +16,30 @@ export interface Item {
   providedIn: 'root',
 })
 export class Product {
-  private products: Item[] = [
-    {
-      id: 1,
-      name: 'Audífonos Inalámbricos',
-      price: 150000,
-      description: 'Alta calidad de sonido con cancelación de ruido activa.',
-      imageUrl: 'https://picsum.photos/seed/picsum1/300/300',
-    },
-    {
-      id: 2,
-      name: 'Teclado Mecánico',
-      price: 250000,
-      description: 'Switches azules ideales para escritura y gaming.',
-      imageUrl: 'https://picsum.photos/seed/picsum2/300/300',
-    },
-    {
-      id: 3,
-      name: 'Ratón Ergonómico',
-      price: 90000,
-      description: 'Diseño vertical para prevenir fatiga en la muñeca.',
-      imageUrl: 'https://picsum.photos/seed/picsum3/300/300',
-    },
-  ];
+  private http = inject(HttpClient);
 
+  private apiUrl = `${environment.apiUrl}/products`;
   constructor() {}
 
-  getProducts(): Item[] {
-    return this.products;
+  async getProducts(): Promise<Result<Item[]>> {
+    try {
+      const response = await firstValueFrom(
+        this.http.get<Result<Item[]>>(this.apiUrl)
+      );
+
+      return response;
+
+    } catch (error) {
+      console.error('Error al conectar con la API de productos:', error);
+
+      return {
+        isSuccess: false,
+        data: [],
+        error: {
+          code: 'ERROR_INTERNO',
+          description: 'Error de red o servidor al cargar el catálogo.',
+        },
+      };
+    }
   }
 }

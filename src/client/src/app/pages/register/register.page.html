@@ -1,13 +1,74 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>register</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/catalog" icon="arrow-back-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Crear cuenta</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">register</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding flex-center-content">
+  <div class="login-container">
+    <div class="login-header ion-text-center">
+      <ion-icon name="person-add-outline" color="primary"></ion-icon>
+      <h1>Únete a IO.NET</h1>
+      <p>Crea tu cuenta para realizar pedidos.</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <ion-list lines="none">
+
+        <ion-item class="login-item">
+          <ion-icon slot="start" name="person-outline" color="medium"></ion-icon>
+          <ion-input labelPlacement="floating" label="Nombre Completo" type="text" formControlName="name"></ion-input>
+        </ion-item>
+        @if (f['name'].touched && f['name'].errors) {
+        <div class="error-container"><ion-text color="danger">El nombre es requerido.</ion-text></div>
+        }
+
+        <ion-item class="login-item ion-margin-top">
+          <ion-icon slot="start" name="mail-outline" color="medium"></ion-icon>
+          <ion-input labelPlacement="floating" label="Correo Electrónico" type="email"
+            formControlName="email"></ion-input>
+        </ion-item>
+        @if (f['email'].touched && f['email'].errors) {
+        <div class="error-container"><ion-text color="danger">Ingresa un correo válido.</ion-text></div>
+        }
+
+        <ion-item class="login-item ion-margin-top">
+          <ion-icon slot="start" name="lock-closed-outline" color="medium"></ion-icon>
+          <ion-input labelPlacement="floating" label="Contraseña" type="password"
+            formControlName="password"></ion-input>
+        </ion-item>
+        @if (f['password'].touched && f['password'].errors) {
+        <div class="error-container"><ion-text color="danger">Mínimo 6 caracteres.</ion-text></div>
+        }
+
+        <ion-item class="login-item ion-margin-top">
+          <ion-icon slot="start" name="lock-closed-outline" color="medium"></ion-icon>
+          <ion-input labelPlacement="floating" label="Confirmar Contraseña" type="password"
+            formControlName="confirmPassword"></ion-input>
+        </ion-item>
+        @if (registerForm.errors?.['passwordMismatch'] && f['confirmPassword'].touched) {
+        <div class="error-container"><ion-text color="danger">Las contraseñas no coinciden.</ion-text></div>
+        }
+      </ion-list>
+
+      <div class="ion-padding-top ion-margin-top">
+        <ion-button expand="block" color="primary" type="submit" [disabled]="loading || registerForm.invalid">
+          @if (loading) {
+          <ion-spinner name="crescent"></ion-spinner>
+          } @else {
+          <ion-icon slot="start" name="person-add-outline"></ion-icon>
+          Registrarse
+          }
+        </ion-button>
+      </div>
+
+      <div class="ion-text-center ion-margin-top registration-link">
+        <ion-text color="medium">¿Ya tienes cuenta?</ion-text>
+        <ion-button fill="clear" color="secondary" size="small" routerLink="/login">Inicia sesión</ion-button>
+      </div>
+    </form>
+  </div>
 </ion-content>

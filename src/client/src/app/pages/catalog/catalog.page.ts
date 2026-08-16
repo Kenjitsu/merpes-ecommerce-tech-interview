@@ -1,12 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonBadge, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonTitle, IonToolbar, IonRow, IonGrid, IonCol, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonText } from '@ionic/angular/standalone';
+import { IonBadge, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonTitle, IonToolbar, IonRow, IonGrid, IonCol, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonText, ToastController, IonSpinner } from '@ionic/angular/standalone';
 import { Item, Product } from '../../services/product';
 import { Cart } from '../../services/cart';
 import { addIcons } from 'ionicons';
-import { addCircle, removeCircle, cartOutline, personCircleOutline, addCircleOutline } from 'ionicons/icons';
-import { Router, RouterLink } from '@angular/router';
+import { addCircle, removeCircle, cartOutline, personCircleOutline, addCircleOutline, removeCircleOutline, checkmarkCircleOutline, alertCircleOutline, logInOutline, exitOutline, newspaperOutline } from 'ionicons/icons';
+import { RouterLink } from '@angular/router';
+import { Auth } from 'src/app/services/auth';
 
 @Component({
   selector: 'app-catalog',
@@ -14,7 +15,7 @@ import { Router, RouterLink } from '@angular/router';
   styleUrls: ['./catalog.page.scss'],
   standalone: true,
   imports: [
-    IonText,
+    IonSpinner,
     IonCardContent,
     IonCardSubtitle,
     IonCardTitle,
@@ -37,12 +38,15 @@ import { Router, RouterLink } from '@angular/router';
   ],
 })
 export class CatalogPage implements OnInit {
-  products: Item[] = [];
-
-  productQuantities: Record<number, number> = {};
-
   private productService = inject(Product);
+  public authService = inject(Auth);
   public cartService = inject(Cart);
+  private toastController = inject(ToastController);
+
+  public products: Item[] = [];
+  public localQuantities: Record<number, number> = {};
+
+  public loading: boolean = true;
 
   constructor() {
     addIcons({
@@ -51,39 +55,77 @@ export class CatalogPage implements OnInit {
       cartOutline,
       personCircleOutline,
       addCircleOutline,
+      removeCircleOutline,
+      checkmarkCircleOutline,
+      alertCircleOutline,
+      logInOutline,
+      exitOutline,
+      newspaperOutline
     });
   }
 
-  ngOnInit() {
-    this.products = this.productService.getProducts();
-
-    this.products.forEach((p) => {
-      this.productQuantities[p.id] = 1;
-    });
+  async ngOnInit() {
+    await this.loadProducts();
   }
 
-  getItemQuantity(productId: number): number {
-    const item = this.cartService
-      .cartItems()
-      .find((i) => i.product.id === productId);
-    return item ? item.quantity : 0;
+  async loadProducts() {
+    this.loading = true;
+
+    const result = await this.productService.getProducts();
+
+    if (result.isSuccess && result.data) {
+      this.products = result.data;
+    } else {
+      this.presentToast(
+        result.error?.description || result.message || 'Error al cargar productos.',
+        'danger',
+        'alert-circle-outline',
+      );
+      this.products = [];
+    }
+
+    this.loading = false;
+  }
+
+  getQuantity(productId: number): number {
+    return this.localQuantities[productId] || 1;
   }
 
   increaseQuantity(productId: number) {
-    this.productQuantities[productId]++;
+    this.localQuantities[productId] = this.getQuantity(productId) + 1;
   }
 
   decreaseQuantity(productId: number) {
-    if (this.productQuantities[productId] > 1) {
-      this.productQuantities[productId]--;
+    const currentQty = this.getQuantity(productId);
+    if (currentQty > 1) {
+      this.localQuantities[productId] = currentQty - 1;
     }
-    this.cartService.decreaseQuantity(productId);
   }
 
-  addToCart(product: Item) {
-    const quantity = this.productQuantities[product.id];
-    this.cartService.addToCart(product, quantity);
+  async addToCart(product: Item) {
+    const quantityToAdd = this.getQuantity(product.id);
+    this.cartService.addToCart(product, quantityToAdd);
+    this.localQuantities[product.id] = 1;
 
-    this.productQuantities[product.id] = 1;
+    this.presentToast(
+      `${quantityToAdd}x ${product.name} agregado al carrito`,
+      'success',
+      'checkmark-circle-outline',
+    );
+  }
+
+  async presentToast(
+    message: string,
+    color: 'success' | 'danger',
+    icon: string,
+  ) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      position: 'top',
+      color,
+      icon,
+    });
+    await toast.present();
   }
 }

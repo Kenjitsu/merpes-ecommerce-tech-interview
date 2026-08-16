@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, ToastController, IonText, IonButton, IonIcon, IonSpinner, IonItem, IonList, IonButtons, IonBackButton, IonInput } from '@ionic/angular/standalone';
 import { Auth } from 'src/app/services/auth';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { personOutline, lockClosedOutline, logInOutline, arrowBackOutline } from 'ionicons/icons';
 
@@ -28,7 +28,8 @@ import { personOutline, lockClosedOutline, logInOutline, arrowBackOutline } from
     IonInput,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink
   ],
 })
 export class LoginPage implements OnInit {
