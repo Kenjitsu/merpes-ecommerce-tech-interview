@@ -77,7 +77,7 @@ ionic serve
 ---
 
 ## 5. Construcción del APK (Paso a Paso) <a id="5-construccion-del-apk-paso-a-paso"/>
-Si deseas generar una nueva compilación del archivo APK desde el código fuente, sigue cuidadosamente estos pasos:
+Si se requiere generar una nueva compilación del archivo APK desde el código fuente, hacer lo siguiente:
 
 **Paso 1: Configurar el entorno**
 Abrir el archivo `src/environments/environment.prod.ts` y asegurarse de que la variable `apiUrl` apunte correctamente a la IP pública de la instancia EC2 en AWS o a tu entorno local:
