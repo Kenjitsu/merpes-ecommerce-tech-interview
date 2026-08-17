@@ -54,7 +54,7 @@ Este cliente móvil consume directamente la API, la cual se encuentra desplegada
 
 
 ### Backend (API) <a id="backend-api"/>
-Para levantar el servidor backend en un entorno de desarrollo local, desde visual studio ejecutando la aplicación normalmente o abrir una terminal, navegar a la raíz del proyecto de la API (donde se ubica el archivo `MerpesEcommerce.API.csproj`) y ejecuta:
+Para levantar el servidor backend en un entorno de desarrollo local, desde visual studio ejecutando la aplicación normalmente o abrir una terminal, navegar a la raíz del proyecto de la API `API/MerpesEcommerce.API/` (donde se ubica el archivo `MerpesEcommerce.API.csproj`) y ejecuta:
 
 ```bash
 dotnet restore
@@ -63,13 +63,17 @@ dotnet run
 La API se inicializará y estará escuchando peticiones en los puertos configurados localmente (usualmente `http://localhost:5132` o `https://localhost:7214`). Una vez ejecutada la API, se aplicarán automáticamente las migraciones pendientes de la base de datos SQLite, asegurando que la base de datos se cree correctamente ysu estructura esté actualizada según el modelo de datos definido en el proyecto.
 
 ### Frontend (App) <a id="frontend-app"/>
-Para ejecutar la aplicación cliente en el navegador y visualizar los cambios en tiempo real, dirígete a la carpeta raíz del frontend y ejecuta:
+Para ejecutar la aplicación cliente en el navegador y visualizar los cambios en tiempo real, dirígirse a la carpeta raíz `client` del frontend y primero ejecutar:
 
 ```bash
 npm install
-ionic serve
 ```
 
+Esto con el fin de instalar todas las dependencias necesarias para el proyecto. Una vez finalizada la instalación, ejecutar el siguiente comando para iniciar la aplicación en modo de desarrollo:
+
+```bash
+ionic serve
+```
 ---
 
 ## 5. Construcción del APK (Paso a Paso) <a id="5-construccion-del-apk-paso-a-paso"/>
