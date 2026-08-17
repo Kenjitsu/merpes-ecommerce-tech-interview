@@ -15,6 +15,8 @@
 ## 1. Resumen del Proyecto <a id="1-resumen-del-proyecto"/>
 Esta aplicación es un e-commerce diseñado bajo una arquitectura cliente-servidor. Cuenta con una interfaz responsiva y optimizada para dispositivos móviles. El sistema se comunica con una API REST que gestiona la lógica de negocio y la persistencia de datos de manera eficiente. La funcionalidad de la aplicación trata de seguir las indicaciones del documento de la prueba técnica.
 
+Adicionalmente, se incluye en este repositorio un documento con el desarrollo de la prueba de análisis contenida en la prueba técnica, se encuentra en la carpeta `prueba-analisis`. Tambien se incluye el archivo con el [APK funcional](#3-apk-funcional-y-despliegue-en-aws) listo para instalar en cualquier dispositivo Android.
+
 ### Estructura de Carpetas del Proyecto <a id="estructura-de-carpetas-del-proyecto"/>
 
 ```text
@@ -24,6 +26,7 @@ MerpesEcommerce/
 │   │   └── MerpesEcommerce.API/      # Código fuente del backend (.NET 10 Web API)
 │   └── client/                       # Código fuente del frontend (Angular / Ionic)
 ├── apk/                              # Archivo APK funcional listo para instalar en Android
+├── prueba-analisis/                  # Desarrollo de prueba de análisis de la prueba técnica
 ├── .gitignore                        # Reglas de exclusión para Git
 ├── MerpesEcommerce.slnx              # Archivo de solución de Visual Studio
 └── README.md                         # Documentación principal del proyecto
